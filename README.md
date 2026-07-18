@@ -176,4 +176,4 @@ npm run dev
 ---
 
 ## 📄 License
-MIT License. Built by [Akshat](https://github.com/Akshat5249).
+MIT License. Built by [devkhurana02](https://github.com/devkhurana02).
