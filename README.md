@@ -96,7 +96,7 @@ The system utilizes a distributed asynchronous architecture:
 ### 2. Local Setup
 ```bash
 # Clone the repository
-git clone https://github.com/Akshat5249/resss_parser.git
+git clone https://github.com/devkhurana02/resss_parser.git
 
 # Start Infrastructure (Postgres, Redis, Qdrant)
 docker-compose -f infra/docker-compose.yml up -d
