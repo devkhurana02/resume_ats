@@ -1,5 +1,7 @@
 # 🚀 AI-Powered ATS Resume Scanner
 
+> AI-powered resume scanner that scores, analyzes, and enhances resumes against job descriptions using LLMs and vector search.
+
 ![FastAPI](https://img.shields.io/badge/FastAPI-005571?style=for-the-badge&logo=fastapi)
 ![Next.js](https://img.shields.io/badge/Next.js-000000?style=for-the-badge&logo=nextdotjs)
 ![LangChain](https://img.shields.io/badge/LangChain-1C3C3C?style=for-the-badge&logo=langchain)
@@ -22,7 +24,6 @@ An intelligent, production-grade ATS (Applicant Tracking System) optimizer that 
 - [Environment Variables](#-environment-variables)
 - [API Routes](#-api-routes)
 - [AI & RAG Pipeline](#-ai--rag-pipeline)
-- [Database Setup](#-database-setup)
 - [Deployment](#-deployment)
 - [Troubleshooting](#-troubleshooting)
 
@@ -68,20 +69,21 @@ The system utilizes a distributed asynchronous architecture:
 ## 📂 Folder Structure
 ```text
 .
-├── backend/                # FastAPI Application
+├── backend/                   # FastAPI Application
 │   ├── app/
-│   │   ├── api/routes/     # API Endpoints (Resume, JD, Scoring, etc.)
-│   │   ├── core/           # Business Logic (Ingestion, Scorer, Gap Detector)
-│   │   ├── db/             # Client initializations (Postgres, Qdrant, Redis)
-│   │   ├── models/         # Pydantic & DB Schemas
-│   │   └── workers/        # Celery App & Background Tasks
-│   ├── Dockerfile          # Production API/Worker Dockerfile
-│   └── start.sh            # Combined process supervisor script
-├── frontend/               # Next.js Application
-│   ├── app/                # Pages & Layouts
-│   ├── components/         # UI Components (Upload, Results, Charts)
-│   └── lib/                # API client & Types
-└── infra/                  # Infrastructure (Docker Compose, SQL init)
+│   │   ├── api/routes/        # API Endpoints (Resume, JD, Scoring, etc.)
+│   │   ├── core/              # Business Logic (Ingestion, Scorer, Gap Detector)
+│   │   ├── db/                # Client initializations (Postgres, Qdrant, Redis)
+│   │   ├── models/            # Pydantic & DB Schemas
+│   │   └── workers/           # Celery App & Background Tasks
+│   ├── Dockerfile             # Production API/Worker Dockerfile
+│   └── start.sh               # Combined process supervisor script
+├── frontend/                  # Next.js Application
+│   ├── app/                   # Pages & Layouts
+│   ├── components/            # UI Components (Upload, Results, Charts)
+│   └── lib/                   # API client & Types
+├── infra/                     # Infrastructure (Docker Compose, SQL init)
+└── setup_dev.sh               # 🚀 One-command local dev setup script
 ```
 
 ---
@@ -93,11 +95,20 @@ The system utilizes a distributed asynchronous architecture:
 - Node.js 18+
 - Docker & Docker Compose
 
-### 2. Local Setup
+### 2. Quick Setup (Recommended)
+The repo includes a `setup_dev.sh` script that handles the entire local environment in one command — creates the virtualenv, installs backend dependencies, and copies the `.env` template:
+
 ```bash
 # Clone the repository
 git clone https://github.com/devkhurana02/resume_ats.git
+cd resume_ats
 
+# One-command setup
+chmod +x setup_dev.sh && ./setup_dev.sh
+```
+
+### 3. Manual Setup
+```bash
 # Start Infrastructure (Postgres, Redis, Qdrant)
 docker-compose -f infra/docker-compose.yml up -d
 
@@ -147,15 +158,15 @@ npm run dev
 
 ---
 
-## 🤖 AI & RAG Pipeline
-1. **Extraction:** `pdfplumber` extracts text -> LangChain `ParserChain` converts to JSON.
+## 🧠 AI & RAG Pipeline
+1. **Extraction:** `pdfplumber` extracts text → LangChain `ParserChain` converts to JSON.
 2. **Embedding:** Resume text is converted to 1536-dimensional vectors using `text-embedding-3-small`.
 3. **Storage:** Vectors are stored in a Qdrant collection (`resume_embeddings`) with metadata.
 4. **Scoring:** GPT-4o analyzes specific match criteria and provides qualitative feedback.
 
 ---
 
-## 📦 Deployment
+## 🚢 Deployment
 
 ### Backend (Render)
 - **Runtime:** Docker
